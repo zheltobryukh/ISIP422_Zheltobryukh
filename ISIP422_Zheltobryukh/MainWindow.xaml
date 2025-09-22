@@ -4,10 +4,6 @@
         xmlns:local="clr-namespace:ISIP422_Zheltobryukh"
         Title="Учёт товаров в магазине" Height="500" Width="900">
 
-    <Window.DataContext>
-        <local:MainViewModel/>
-    </Window.DataContext>
-
     <DockPanel>
         <!-- Панель кнопок -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">

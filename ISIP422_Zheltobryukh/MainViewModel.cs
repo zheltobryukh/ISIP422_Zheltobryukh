@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace ISIP422_Zheltobryukh
 {
     public class MainViewModel
     {
-        private readonly ProductService _productService;
-
+        public ProductService ProductService { get; private set; }
         public ObservableCollection<Product> Products { get; set; }
 
         public MainViewModel()
         {
-            _productService = new ProductService();
-            _productService.SeedTestData();
-            Products = new ObservableCollection<Product>(_productService.GetAll());
+            ProductService = new ProductService();
+            ProductService.SeedTestData();
+            Products = new ObservableCollection<Product>(ProductService.GetAll());
         }
     }
 }
