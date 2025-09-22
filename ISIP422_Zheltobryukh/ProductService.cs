@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ISIP422_Zheltobryukh
 {
     public class ProductService
     {
         private readonly List<Product> _products = new List<Product>();
+        private readonly Stack<SaleRecord> _salesHistory = new Stack<SaleRecord>();
+        private readonly List<SaleRecord> _salesReport = new List<SaleRecord>();
 
         public IEnumerable<Product> GetAll() => _products;
+        public IEnumerable<SaleRecord> GetReport() => _salesReport;
+        public IEnumerable<SaleRecord> GetHistory() => _salesHistory;
 
         public void AddProduct(Product product) => _products.Add(product);
 
@@ -34,9 +35,25 @@ namespace ISIP422_Zheltobryukh
             if (product != null && product.Quantity >= amount)
             {
                 product.Quantity -= amount;
+
+                var sale = new SaleRecord(product, amount);
+                _salesHistory.Push(sale);
+                _salesReport.Add(sale);
+
                 return true;
             }
             return false;
+        }
+
+        public bool UndoLastSale()
+        {
+            if (_salesHistory.Count == 0)
+                return false;
+
+            var lastSale = _salesHistory.Pop();
+            lastSale.Product.Quantity += lastSale.Quantity;
+            _salesReport.Remove(lastSale);
+            return true;
         }
 
         public Product FindById(int id) =>
