@@ -16,7 +16,13 @@ namespace ISIP422_Zheltobryukh
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            
+            var addWindow = new AddProductWindow();
+            if (addWindow.ShowDialog() == true)
+            {
+                var product = addWindow.NewProduct;
+                _viewModel.ProductService.AddProduct(product);
+                _viewModel.Products.Add(product);
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
